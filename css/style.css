@@ -1,5 +1,6 @@
 body {
   margin: 0px;
+  background-color: #1a1a1a;
 }
 
 ul {
@@ -52,13 +53,54 @@ img {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #ffb892;
-  border: 2px solid #f3a982;
+  background-color: #f1702b;
   overflow: hidden;
   text-indent: -999px;
 }
 
 [data-control="slide"] li.active a,
 [data-control="slide"] li a:hover {
-  background-color: #f3a982;
+  background-color: #d45815;
+}
+
+.custom-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 40px 0px 40px 0px;
+  justify-content: center;
+}
+.custom-control li img {
+  opacity: 0.8;
+  transform: scale(0.8);
+  width: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: 0.4s;
+}
+
+.custom-control li.active img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.arrow-nav {
+  display: flex;
+  justify-content: space-around;
+  margin: 40px 0;
+}
+.arrow-nav .prev,
+.arrow-nav .next {
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  text-indent: -999px;
+  background: #f1702b url("../img/arrow.svg") center no-repeat;
+  cursor: pointer;
+}
+
+.arrow-nav .prev {
+  transform: rotate(-180deg);
 }
