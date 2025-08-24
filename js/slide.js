@@ -10,6 +10,7 @@ export class Slide {
       movePosition: 0,
     };
     this.activeClass = "active";
+    this.changeEv = new Event("changeEvent");
   }
 
   transition(active) {
@@ -106,6 +107,7 @@ export class Slide {
     this.slideIndexNav(index);
     this.dist.finalPosition = activeSlide.position;
     this.changeActiveClass();
+    this.container.dispatchEvent(this.changeEv);
   }
 
   changeActiveClass() {
@@ -145,6 +147,8 @@ export class Slide {
     this.activePrev = this.activePrev.bind(this);
     this.activeNext = this.activeNext.bind(this);
     this.onResize = debounce(this.onResize.bind(this), 100);
+    this.controlEv = this.controlEv.bind(this);
+    this.activeControlItem = this.activeControlItem.bind(this);
   }
 
   init() {
@@ -168,5 +172,43 @@ export class SlideNav extends Slide {
   addArrowEv() {
     this.prevElement.addEventListener("click", this.activePrev);
     this.nextElement.addEventListener("click", this.activeNext);
+  }
+
+  createControl() {
+    const control = document.createElement("ul");
+    control.dataset.control = "slide";
+
+    this.slideArray.forEach((item, index) => {
+      control.innerHTML += `<li><a href="#slide${index + 1}">${
+        index + 1
+      }</a></li>`;
+    });
+    this.container.appendChild(control);
+    return control;
+  }
+
+  controlEv(item, index) {
+    item.addEventListener("click", (event) => {
+      event.preventDefault();
+      this.changeSlide(index);
+    });
+    this.container.addEventListener("changeEvent", this.activeControlItem);
+  }
+
+  activeControlItem() {
+    this.controlArray.forEach((item) =>
+      item.classList.remove(this.activeClass)
+    );
+    this.controlArray[this.index.active].classList.add(this.activeClass);
+  }
+
+  addControl(customControl) {
+    this.control =
+      document.querySelector(customControl) || this.createControl();
+    this.controlArray = [...this.control.children];
+    console.log(this.control);
+    console.log(this.controlArray);
+    this.activeControlItem();
+    this.controlArray.forEach(this.controlEv);
   }
 }
